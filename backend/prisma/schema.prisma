@@ -1,0 +1,31 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id        Int      @id @default(autoincrement())
+  nombre    String   @db.VarChar(255)
+  email     String   @unique @db.VarChar(255)
+  password  String   @db.VarChar(255)
+  activo    Boolean  @default(true)
+  creadoEn  DateTime @default(now())
+}
+
+model Persona {
+  id                  Int      @id @default(autoincrement())
+  nombre              String   @db.VarChar(255)
+  comunidad           String   @db.VarChar(255)
+  anioRegistro        Int
+  ultimoAnioRefrendado Int?
+  figura              String?  @db.VarChar(500)  // ruta a la imagen: "storage/figuras/persona_001.jpg"
+  libro               String?  @db.VarChar(255)
+  hoja                String?  @db.VarChar(255)
+  observacion         String?  @db.Text
+  creadoEn            DateTime @default(now())
+  actualizadoEn       DateTime @updatedAt
+}
