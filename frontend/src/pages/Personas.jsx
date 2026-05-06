@@ -20,7 +20,7 @@ export default function Personas() {
         obtenerPersonas();
     }, []);
 
-    // 🔥 CREATE / UPDATE
+
     const guardarPersona = async (id, formData) => {
         setLoading(true);
 
@@ -40,7 +40,6 @@ export default function Personas() {
         setLoading(false);
     };
 
-    // 🔥 DELETE
     const eliminar = async (id) => {
         if (!confirm('¿Eliminar persona?')) return;
 
