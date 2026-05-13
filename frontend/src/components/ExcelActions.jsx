@@ -36,12 +36,12 @@ export default function ExcelActions({ onSuccess }) {
 
             <button
                 onClick={exportarExcel}
-                className="btn-success"
+                className="btn-success hover:scale-105 flex items-center justify-center gap-2"
             >
                 Exportar Excel
             </button>
 
-            <label className="btn-primary cursor-pointer">
+            <label className="btn-primary cursor-pointer hover:scale-105 flex items-center justify-center gap-2">
                 Importar Excel
                 <input
                     type="file"

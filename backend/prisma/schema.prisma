@@ -12,6 +12,9 @@ model Usuario {
   nombre    String   @db.VarChar(255)
   email     String   @unique @db.VarChar(255)
   password  String   @db.VarChar(255)
+
+  rol       String   @default("usuario")
+
   activo    Boolean  @default(true)
   creadoEn  DateTime @default(now())
 }
@@ -28,4 +31,13 @@ model Persona {
   observacion         String?  @db.Text
   creadoEn            DateTime @default(now())
   actualizadoEn       DateTime @updatedAt
+}
+
+model Auditoria{
+  id Int @id @default(autoincrement())
+  Usuario String
+  accion String
+  entidad String
+  descripcion String
+  fecha DateTime @default(now())
 }

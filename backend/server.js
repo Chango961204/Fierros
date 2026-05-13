@@ -4,6 +4,7 @@ import cors from 'cors';
 import personasRoutes from './src/routes/personas.routes.js';
 import excelRoutes from './src/routes/excel.routes.js';
 import authRoutes from './src/routes/auth.routes.js';
+import auditoriaRoutes from './src/routes/auditoria.routes.js';
 
 const app = express(); 
 
@@ -14,7 +15,7 @@ app.use(express.json());
 app.use('/api/personas', personasRoutes);
 app.use('/api/excel', excelRoutes);
 app.use('/api/auth', authRoutes);
-
+app.use('/api/auditoria', auditoriaRoutes);
 app.use('/storage', express.static('storage'));
 
 const PORT = 4000;

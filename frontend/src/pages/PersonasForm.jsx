@@ -16,7 +16,7 @@ export default function PersonasForm() {
             <div className="p-6 max-w-3xl mx-auto">
                 <h1 className="text-3xl font-bold mb-6">Nuevo Registro</h1>
 
-                <PersonaForm onSubmit={guardarPersona} />
+                <PersonaForm className="glass-card p-6 rounded-lg shadow-lg" onSubmit={guardarPersona} />
             </div>
         </div>
     );

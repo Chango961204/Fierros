@@ -4,6 +4,7 @@ import PersonasLista from '../pages/PersonasLista';
 import PersonasForm from '../pages/PersonasForm';
 import Home from '../pages/Home';
 import PrivateRoute from '../components/PrivateRoute';
+import Auditoria from '../pages/Auditoria';
 
 export default function AppRouter() {
     return (
@@ -26,6 +27,12 @@ export default function AppRouter() {
                 <Route path="/personas/nueva" element={
                     <PrivateRoute>
                         <PersonasForm />
+                    </PrivateRoute>
+                } />
+
+                <Route path="/auditoria" element={
+                    <PrivateRoute>
+                        <Auditoria />
                     </PrivateRoute>
                 } />
             </Routes>

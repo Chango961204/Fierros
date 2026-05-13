@@ -5,7 +5,9 @@ import jwt from 'jsonwebtoken';
 const prisma = new PrismaClient();
 
 export const login = async (req, res) => {
+
     try {
+
         const { email, password } = req.body;
 
         const user = await prisma.usuario.findUnique({
@@ -13,23 +15,38 @@ export const login = async (req, res) => {
         });
 
         if (!user) {
-            return res.status(404).json({ message: 'Usuario no encontrado' });
+            return res.status(404).json({
+                message: 'Usuario no encontrado'
+            });
         }
 
         if (!user.activo) {
-            return res.status(403).json({ message: 'Usuario desactivado' });
+            return res.status(403).json({
+                message: 'Usuario desactivado'
+            });
         }
 
-        const valid = await bcrypt.compare(password, user.password);
+        const valid = await bcrypt.compare(
+            password,
+            user.password
+        );
 
         if (!valid) {
-            return res.status(401).json({ message: 'Contraseña incorrecta' });
+            return res.status(401).json({
+                message: 'Contraseña incorrecta'
+            });
         }
 
         const token = jwt.sign(
-            { userId: user.id },
+            {
+                id: user.id,
+                nombre: user.nombre,
+                rol: user.rol
+            },
             process.env.JWT_SECRET,
-            { expiresIn: '1d' }
+            {
+                expiresIn: '8h'
+            }
         );
 
         res.json({
@@ -37,11 +54,17 @@ export const login = async (req, res) => {
             user: {
                 id: user.id,
                 nombre: user.nombre,
-                email: user.email
+                email: user.email,
+                rol: user.rol
             }
         });
 
     } catch (error) {
-        res.status(500).json({ error: error.message });
+
+        console.error(error);
+
+        res.status(500).json({
+            error: error.message
+        });
     }
 };

@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import path from 'path';
 import fs from 'fs';
+import { registrarAuditoria } from '../middlewares/auditoria.middleware.js';
 
 const prisma = new PrismaClient();
 
@@ -55,6 +56,13 @@ export const crearPersona = async (req, res) => {
             }
         });
 
+        await registrarAuditoria({
+            usuario: req.usuario.nombre,
+            accion: 'CREATE',
+            entidad: 'Persona',
+            descripcion: `Creó a ${nuevaPersona.nombre}`
+        })
+
         res.status(201).json(nuevaPersona);
 
     } catch (error) {
@@ -88,22 +96,29 @@ export const actualizarPersona = async (req, res) => {
         }
 
         const personaActualizada = await prisma.persona.update({
-    where: { id: parseInt(id) },
-    data: {
-        nombre: req.body.nombre,
-        comunidad: req.body.comunidad,
-        anioRegistro: req.body.anioRegistro
-            ? parseInt(req.body.anioRegistro)
-            : undefined,
-        ultimoAnioRefrendado: req.body.ultimoAnioRefrendado
-            ? parseInt(req.body.ultimoAnioRefrendado)
-            : null,
-        libro: req.body.libro || null,
-        hoja: req.body.hoja || null,
-        observacion: req.body.observacion || null,
-        figura: rutaFigura
-    }
-});
+            where: { id: parseInt(id) },
+            data: {
+                nombre: req.body.nombre,
+                comunidad: req.body.comunidad,
+                anioRegistro: req.body.anioRegistro
+                    ? parseInt(req.body.anioRegistro)
+                    : undefined,
+                ultimoAnioRefrendado: req.body.ultimoAnioRefrendado
+                    ? parseInt(req.body.ultimoAnioRefrendado)
+                    : null,
+                libro: req.body.libro || null,
+                hoja: req.body.hoja || null,
+                observacion: req.body.observacion || null,
+                figura: rutaFigura
+            }
+        });
+
+        await registrarAuditoria({
+            usuario: req.usuario.nombre,
+            accion: 'UPDATE',
+            entidad: 'Persona',
+            descripcion: `Actualizó a ${personaActualizada.nombre}`
+        });
 
         res.json(personaActualizada);
 
@@ -130,6 +145,13 @@ export const eliminarPersona = async (req, res) => {
                 fs.unlinkSync(ruta);
             }
         }
+
+        await registrarAuditoria({
+            usuario: req.usuario.nombre,
+            accion: 'DELETE',
+            entidad: 'Persona',
+            descripcion: `Eliminó a ${persona.nombre}`
+        });
 
         await prisma.persona.delete({
             where: { id: parseInt(id) }

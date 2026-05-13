@@ -13,7 +13,7 @@ export default function PersonaCard({ persona, onDelete, onUpdate }) {
 
     return (
         <>
-            <div className="glass-card p-6">
+            <div className="glass-card p-6 rounded-lg shadow-lg flex flex-col items-center hover:scale-105 transition-transform duration-300 cursor-pointer ">
                 {persona.figura && (
                     <img
                         src={`http://localhost:4000/${persona.figura}`}
@@ -27,14 +27,14 @@ export default function PersonaCard({ persona, onDelete, onUpdate }) {
                 <div className="grid gap-3 mt-6">
                     <button
                         onClick={() => setIsModalOpen(true)}
-                        className="btn-warning w-full"
+                        className="btn-warning w-full hover:scale-105 flex items-center justify-center gap-2"
                     >
                         <UserRoundPen size={16} />
                         Editar
                     </button>
                     <button
                         onClick={() => onDelete(persona.id)}
-                        className="btn-danger w-full"
+                        className="btn-danger w-full hover:scale-105 flex items-center justify-center gap-2"
                     >
                         <UserX size={16} />
                         Eliminar
@@ -52,7 +52,7 @@ export default function PersonaCard({ persona, onDelete, onUpdate }) {
                         />
                         <button
                             onClick={() => setIsModalOpen(false)}
-                            className="mt-4 btn-secondary w-full"
+                            className="mt-4 btn-secondary w-full hover:scale-105 flex items-center justify-center gap-2"
                         >
                             Cancelar
                         </button>

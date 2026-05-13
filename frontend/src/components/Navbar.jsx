@@ -1,25 +1,32 @@
 import { useAuth } from '../context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
-import { User, UserRoundPlus, Home } from 'lucide-react';
+import { User, UserRoundPlus, Home, ShieldCheck } from 'lucide-react';
 import logo from '../assets/Logo.webp';
 
 export default function Navbar() {
-    const { logout } = useAuth();
+
+    const { logout, user } = useAuth();
+
     const navigate = useNavigate();
 
     const cerrarSesion = () => {
+
         logout();
         navigate('/');
     };
 
     return (
+
         <nav className="glass-panel sticky top-4 z-40 mx-4 flex flex-wrap justify-between items-center gap-4 px-6 py-4">
-            <Link to="/home" className="flex items-center gap-2 group">
+
+            <Link
+                to="/home"
+                className="flex items-center gap-2 group"
+            >
                 <img
                     src={logo}
                     alt="Fierros"
-                    className="h-20 hover:scale-110 w-auto object-contain"
-                    style={{ filter: "brightness(0) saturate(100%)", opacity: 0.96 }}
+                    className="h-20 hover:scale-110 transition-transform duration-300 w-auto object-contain"
                 />
             </Link>
 
@@ -27,7 +34,7 @@ export default function Navbar() {
 
                 <button
                     onClick={() => navigate('/home')}
-                    className="btn-third flex items-center gap-2 hover:scale-105 "
+                    className="btn-third flex items-center gap-2 hover:scale-105"
                 >
                     <Home size={18} />
                     Inicio
@@ -49,6 +56,16 @@ export default function Navbar() {
                     Nueva persona
                 </button>
 
+                {user?.rol === 'admin' && (
+                    <button
+                        onClick={() => navigate('/auditoria')}
+                        className="btn-secondary flex items-center gap-2 hover:scale-105"
+                    >
+                        <ShieldCheck size={18} />
+                        Auditoría
+                    </button>
+                )}
+
                 <button
                     onClick={cerrarSesion}
                     className="btn-danger flex items-center gap-2 hover:scale-105"
@@ -57,6 +74,7 @@ export default function Navbar() {
                 </button>
 
             </div>
+
         </nav>
     );
 }
